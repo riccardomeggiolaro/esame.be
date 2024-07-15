@@ -2,7 +2,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-export type RequestDocument = HydratedDocument<Request>;
+export type JobOfferDocument = HydratedDocument<JobOffer>;
 
 @Schema({
   versionKey: false,
@@ -23,27 +23,20 @@ export type RequestDocument = HydratedDocument<Request>;
     }
   }
 })
-export class Request {
+export class JobOffer {
   id?: string;
   
   @Prop()
-  surname: string;
+  title: string;
 
   @Prop()
-  name: string;
+  description: string;
 
   @Prop()
   date: Date;
 
   @Prop()
-  amount: number;
-
-  @Prop()
-  numberRate: number;
+  grossSalary: number;
 }
 
-export const RequestSchema = SchemaFactory.createForClass(Request);
-
-RequestSchema.virtual('fullName').get(function() {
-    return `${this.surname} ${this.name}`;
-});
+export const JobOfferSchema = SchemaFactory.createForClass(JobOffer);

@@ -5,7 +5,10 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { IsExistingProvider } from '@core/validators';
-import { RequestService, RequestsModule, RequetsAbstractService } from '@modules/requests';
+import { JobOfferAbstractService } from '@modules/job-offer/service/job-offer.abstract.service';
+import { JobOfferService } from '@modules/job-offer/service/job-offer.service';
+import { JobOfferModule } from '@modules/job-offer/job-offer.module';
+import { JobOfferController } from './api/job-offer/job-offer.controller';
 
 @Module({
   imports: [
@@ -20,11 +23,11 @@ import { RequestService, RequestsModule, RequetsAbstractService } from '@modules
         uri: config.get<string>('MONGODB_URI'),
       }),
     }),
-    RequestsModule.forRoot([
-      { provide: RequetsAbstractService, useClass: RequestService }
+    JobOfferModule.forRoot([
+      { provide: JobOfferAbstractService, useClass: JobOfferService }
     ]),
   ],
-  controllers: [AppController],
+  controllers: [AppController, JobOfferController],
   providers: [AppService, IsExistingProvider],
 })
 export class AppModule {}
